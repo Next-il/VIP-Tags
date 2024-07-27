@@ -14,6 +14,7 @@ this plugin is built for the [VIP](https://github.com/partiusfabaa/cs2-VIPCore) 
 💎 Choose custom clan (scoreboard) tag with chat input. <br />
 💎 Choose custom chat tag (before the player name) with a custom chat input. <br />
 💎 Choose custom colors for the clan tag, chat tag, and player name. <br />
+💎 Compatible with admin commands (gags). <br />
 
 
 ## Configuration file (VIP_Tags.json)
