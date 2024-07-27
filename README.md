@@ -38,7 +38,7 @@ this plugin is built for the [VIP](https://github.com/partiusfabaa/cs2-VIPCore) 
 ```
 {
 	...
-    "tag.ChatTagPrompt": "Enter the tag you want to use in the chat",
+	"tag.ChatTagPrompt": "Enter the tag you want to use in the chat",
 	"tag.ChatTagSelected": "Your chat tag is now: {lime}{0}",
 	"tag.ScoreboardTagPrompt": "Enter the tag you want to use in the scoreboard",
 	"tag.ColorSelected": "You have selected the color: {lime}{0}",
