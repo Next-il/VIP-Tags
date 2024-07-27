@@ -1,7 +1,7 @@
 **[C#] [VIP] Module - Tags** Players can choose their own custom clan tag, chat tag, and colors for their names, tag and chat messages.
 this plugin is built for the [VIP](https://github.com/partiusfabaa/cs2-VIPCore) and used as a module.
 
-# Installation
+## Installation
 
 1. Install the [VIP](https://github.com/partiusfabaa/cs2-VIPCore) plugin.
 2. Download this module [here](https://github.com/Next-il/VIP-Tags/releases).
@@ -10,12 +10,13 @@ this plugin is built for the [VIP](https://github.com/partiusfabaa/cs2-VIPCore) 
 5. Add the translations to `addons\counterstrikesharp\plugins\VIPCore\lang\(lang).json`.
 6. Restart the server
 
-# Features
-💎 Choose custom clan (scoreboard) tag with chat input
-💎 Choose custom chat tag (before the player name) with a custom chat input
-💎 Choose custom colors for the clan tag, chat tag, and player name
+## Features
+💎 Choose custom clan (scoreboard) tag with chat input. <br />
+💎 Choose custom chat tag (before the player name) with a custom chat input. <br />
+💎 Choose custom colors for the clan tag, chat tag, and player name. <br />
 
-# Configuration file (VIP_Tags.json)
+
+## Configuration file (VIP_Tags.json)
 
 ```
 {
@@ -31,7 +32,7 @@ this plugin is built for the [VIP](https://github.com/partiusfabaa/cs2-VIPCore) 
 }
 ```
 
-# Translations (add to `addons\counterstrikesharp\plugins\VIPCore\lang\(lang).json`)
+## Translations
 
 ```
 {
@@ -44,3 +45,4 @@ this plugin is built for the [VIP](https://github.com/partiusfabaa/cs2-VIPCore) 
 	"tag.ScoreboardTagSelected": "Your scoreboard tag is now: {lime}{0}"
 }
 ```
+add to `addons\counterstrikesharp\plugins\VIPCore\lang\(lang).json`
