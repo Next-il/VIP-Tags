@@ -3,7 +3,7 @@ this plugin is built for the [VIP](https://github.com/partiusfabaa/cs2-VIPCore) 
 
 ## Installation
 
-1. Install the [VIP](https://github.com/partiusfabaa/cs2-VIPCore) plugin.
+1. Install the [VIP Core](https://github.com/partiusfabaa/cs2-VIPCore) plugin.
 2. Download this module [here](https://github.com/Next-il/VIP-Tags/releases).
 3. Unpack and place the plugin in `game/csgo/addons/counterstrikesharp/plugins/VIP_Tags`
 4. After the first launch, configure the plugin in `addons/counterstrikesharp/configs/plugins/VIP_Tags/VIP_Tags.json`
