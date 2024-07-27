@@ -18,6 +18,6 @@ namespace VIP_Tags
 		};
 
 		[JsonPropertyName("TagTimeout")]
-		public int TagTimeout { get; set; } = 10;
+		public int TagTimeout { get; set; } = 20;
 	}
 }
