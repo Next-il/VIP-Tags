@@ -25,9 +25,7 @@ public partial class VIP_Tags : BasePlugin, IPluginConfig<TagsConfig>
 
 	private readonly Dictionary<ulong, UserSettings?> _userSettings = [];
 
-	// A list that will handle the users that are awaiting a string for a chat or scoreboard tag
-	private readonly List<ulong> _awaitingChatTagUsers = [];
-	private readonly List<ulong> _awaitingScoreboardTagUsers = [];
+	private readonly Dictionary<ulong, (string type, int awaitingUnixTime)> _awaitingTags = [];
 
 	private PluginCapability<IVipCoreApi> PluginCapability { get; } = new("vipcore:core");
 
@@ -161,58 +159,36 @@ public partial class VIP_Tags : BasePlugin, IPluginConfig<TagsConfig>
 
 		private void HandleChooseChatTag(CCSPlayerController player)
 		{
-			Instance._awaitingChatTagUsers.Add(player.SteamID);
-			PrintToChat(player, "");
-			PrintToChat(player, "");
-			PrintToChat(player, "");
-			PrintToChat(player, "");
-			PrintToChat(player, GetTranslatedText("tag.ChatTagPrompt"));
-			PrintToChat(player, "");
+			AwaitOrExtendTag(player.SteamID, "chat");
+			PrintToChat(player, ReplaceLineBreaks(GetTranslatedText("tag.ChatTagPrompt")));
 			MenuManager.CloseActiveMenu(player);
-
-			HandleTimeout(player);
 		}
 
 		private void HandleChooseScoreboardTag(CCSPlayerController player)
 		{
-			Instance._awaitingScoreboardTagUsers.Add(player.SteamID);
-			PrintToChat(player, "");
-			PrintToChat(player, "");
-			PrintToChat(player, "");
-			PrintToChat(player, "");
-			PrintToChat(player, GetTranslatedText("tag.ScoreboardTagPrompt"));
-			PrintToChat(player, "");
+			AwaitOrExtendTag(player.SteamID, "scoreboard");
+			PrintToChat(player, ReplaceLineBreaks(GetTranslatedText("tag.ScoreboardTagPrompt")));
 			MenuManager.CloseActiveMenu(player);
-
-			HandleTimeout(player);
 		}
 
-		// Set timeout for 10 seconds and remove the user from the lists after the timeout
-		private Task HandleTimeout(CCSPlayerController player)
+		public static void StopAwaitingTag(ulong steamId)
 		{
-			var context = SynchronizationContext.Current;
+			Instance._awaitingTags.Remove(steamId);
+		}
 
-			Task.Delay(_app.Config.TagTimeout).ContinueWith(_ =>
+		public void AwaitOrExtendTag(ulong steamId, string type)
+		{
+			if (Instance._awaitingTags.TryGetValue(steamId, out (string type, int awaitingUnixTime) value))
 			{
-				if (Instance._awaitingChatTagUsers.Contains(player.SteamID))
+				if (value.type == type)
 				{
-					Instance._awaitingChatTagUsers.Remove(player.SteamID);
+					Instance._awaitingTags[steamId] = (type, (int)DateTimeOffset.UtcNow.ToUnixTimeSeconds());
 				}
-
-				if (Instance._awaitingScoreboardTagUsers.Contains(player.SteamID))
-				{
-					Instance._awaitingScoreboardTagUsers.Remove(player.SteamID);
-				}
-
-				context.Post(__ =>
-				{
-					PrintToChat(player, GetTranslatedText("tag.TagTimeout"));
-					MainMenu(player);
-				}, null);
-
-			}, TaskScheduler.Default);
-
-			return Task.CompletedTask;
+			}
+			else
+			{
+				Instance._awaitingTags[steamId] = (type, (int)DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+			}
 		}
 
 		private void OpenChatColorMenu(CCSPlayerController player)

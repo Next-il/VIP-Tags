@@ -42,4 +42,11 @@ public partial class VIP_Tags
 	{
 		return input != null ? $"{{{input}}}" : string.Empty;
 	}
+
+	public static string ReplaceLineBreaks(string input)
+	{
+		Console.WriteLine(input);
+		Console.WriteLine(input.Replace("\\n", "\\u2029"));
+		return input.Replace("\\n", "\u2029");
+	}
 }

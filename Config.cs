@@ -18,6 +18,16 @@ namespace VIP_Tags
 		};
 
 		[JsonPropertyName("TagTimeout")]
-		public int TagTimeout { get; set; } = 20;
+		public int TagTimeout { get; set; } = 15;
+
+		[JsonPropertyName("ScoreboardTagMin")]
+		public int ScoreboardTagMin { get; set; } = 1;
+		[JsonPropertyName("ScoreboardTagMax")]
+		public int ScoreboardTagMax { get; set; } = 17;
+
+		[JsonPropertyName("ChatTagMin")]
+		public int ChatTagMin { get; set; } = 1;
+		[JsonPropertyName("ChatTagMax")]
+		public int ChatTagMax { get; set; } = 17;
 	}
 }

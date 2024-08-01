@@ -8,14 +8,15 @@ this plugin is built for the [VIP](https://github.com/partiusfabaa/cs2-VIPCore) 
 3. Unpack and place the plugin in `game/csgo/addons/counterstrikesharp/plugins/VIP_Tags`
 4. After the first launch, configure the plugin in `addons/counterstrikesharp/configs/plugins/VIP_Tags/VIP_Tags.json`
 5. Add the translations to `addons\counterstrikesharp\plugins\VIPCore\lang\(lang).json`.
-6. Restart the server
+6. Add the Tags module to the VIP-Core groups ("Tags": true).
+7. Restart the server
 
 ## Features
+
 💎 Choose custom clan (scoreboard) tag with chat input. <br />
 💎 Choose custom chat tag (before the player name) with a custom chat input. <br />
 💎 Choose custom colors for the clan tag, chat tag, and player name. <br />
 💎 Compatible with admin commands (gags). <br />
-
 
 ## Configuration file (VIP_Tags.json)
 
@@ -29,7 +30,15 @@ this plugin is built for the [VIP](https://github.com/partiusfabaa/cs2-VIPCore) 
     "tname": "{Yellow}(T)",
     "ctname": "{Blue}(CT)"
   },
-  "TagTimeout": 20,
+  "TagTimeout": 15,
+  "ScoreboardTag": {
+    "minChars": 1,
+    "maxChars": 17
+  },
+  "ChatTag": {
+    "minChars": 1,
+    "maxChars": 17
+  }
 }
 ```
 
@@ -38,12 +47,31 @@ this plugin is built for the [VIP](https://github.com/partiusfabaa/cs2-VIPCore) 
 ```
 {
 	...
-	"tag.ChatTagPrompt": "Enter the tag you want to use in the chat",
+	"tag.ChatTagPrompt": "\\n\\n\\n\\nEnter the tag you want to use in the chat\\nType {red}cancel{default} to cancel\\n",
 	"tag.ChatTagSelected": "Your chat tag is now: {lime}{0}",
-	"tag.ScoreboardTagPrompt": "Enter the tag you want to use in the scoreboard",
+	"tag.ChatTagLengthError": "The tag must be between {lime}{0}{default} and {lime}{1}{default} characters long, please type a new tag",
+	"tag.ScoreboardTagPrompt": "\\n\\n\\n\\nEnter the tag you want to use in the scoreboard\\nType {red}cancel{default} to cancel\\n",
 	"tag.ColorSelected": "You have selected the color: {lime}{0}",
 	"tag.TagTimeout": "Time is up, if you want to set a tag please use the command again",
-	"tag.ScoreboardTagSelected": "Your scoreboard tag is now: {lime}{0}"
+	"tag.ScoreboardTagSelected": "Your scoreboard tag is now: {lime}{0}",
+	"tag.ScoreboardTagLengthError": "The tag must be between {lime}{0}{default} and {lime}{1}{default} characters long, please type a new tag"
 }
 ```
+
 add to `addons\counterstrikesharp\plugins\VIPCore\lang\(lang).json`
+
+## VIP groups example
+
+```
+	...
+	"Groups": {
+		"VIP": {
+			"Values": {
+				...
+				"Tags": true,
+				...
+			}
+		}
+	}
+	...
+```

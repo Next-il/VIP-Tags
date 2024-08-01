@@ -16,6 +16,13 @@ public partial class VIP_Tags
 
 		string command = info.GetArg(1);
 
+		if (command == "cancel")
+		{
+			Instance._awaitingTags.Remove(player.SteamID);
+			Instance._tags?.MainMenu(player);
+			return HookResult.Handled;
+		}
+
 		if (CoreConfig.SilentChatTrigger.Any(i => command.StartsWith(i)))
 		{
 			return HookResult.Continue;
@@ -33,44 +40,87 @@ public partial class VIP_Tags
 
 		Instance._userSettings.TryGetValue(player.SteamID, out UserSettings? playerData);
 
-		// Check if the userId is in the "_awaitingChatTagUsers" List
-		if (Instance._awaitingChatTagUsers.Contains(player.SteamID))
+		// Check if the userId is in the "_awaitingTags" List
+		Instance._awaitingTags.TryGetValue(player.SteamID, out (string type, int awaitingUnixTime) awaitingTag);
+		int currentTime = (int)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+		int delay = Instance.Config.TagTimeout;
+
+		Console.WriteLine($"[VIP Tags] currentTime: {currentTime}");
+		Console.WriteLine($"[VIP Tags] awaitingUnixTime: {awaitingTag.awaitingUnixTime}");
+		Console.WriteLine($"[VIP Tags] delay: {delay}");
+		Console.WriteLine($"[VIP Tags] awaitingTag.awaitingUnixTime + delay: {awaitingTag.awaitingUnixTime + delay}");
+		Console.WriteLine($"[VIP Tags] awaitingTag.type: {awaitingTag.type}");
+
+		// Check if the awaitingTag exists and the didnt pass the timeout
+		if (awaitingTag.type != null && currentTime < (awaitingTag.awaitingUnixTime + delay))
 		{
+			Console.WriteLine("[VIP Tags] Tag awaiting timeout not passed");
+			Instance._api?.PrintToChat(player, message: $"You have more {(awaitingTag.awaitingUnixTime + delay) - currentTime} seconds to enter your tag");
+			// Check for min and max lengths, and restart -> cancel the timeout
+			if (command.Length < Instance.Config.ChatTagMin || command.Length > Instance.Config.ChatTagMax)
+			{
+				Console.WriteLine($"[VIP Tags] Tag length error {awaitingTag.type}");
+				Instance._tags?.AwaitOrExtendTag(player.SteamID, awaitingTag.type);
+
+				switch (awaitingTag.type)
+				{
+					case "chat":
+						Instance._api?.PrintToChat(player, Instance._api?.GetTranslatedText("tag.ChatTagLengthError", Instance.Config.ChatTagMin, Instance.Config.ChatTagMax)!);
+						break;
+
+					case "scoreboard":
+						Instance._api?.PrintToChat(player, Instance._api?.GetTranslatedText("tag.ScoreboardTagLengthError", Instance.Config.ScoreboardTagMin, Instance.Config.ScoreboardTagMax)!);
+						break;
+				}
+
+				return HookResult.Handled;
+			}
+
 			// Set the player's chat tag
 			if (playerData != null)
 			{
-				playerData.ChatTag = command;
+				Console.WriteLine($"[VIP Tags] Setting tag for {awaitingTag.type}");
+
+				switch (awaitingTag.type)
+				{
+					case "chat":
+						playerData.ChatTag = command;
+						break;
+					case "scoreboard":
+						playerData.ScoreboardTag = command;
+						break;
+				}
 			}
 			else
 			{
-				Instance._userSettings[player.SteamID] = new UserSettings { ChatTag = command };
+				Console.WriteLine($"[VIP Tags] Setting tag for {awaitingTag.type}");
+				switch (awaitingTag.type)
+				{
+					case "chat":
+						Instance._userSettings[player.SteamID] = new UserSettings { ChatTag = command };
+						break;
+					case "scoreboard":
+						Instance._userSettings[player.SteamID] = new UserSettings { ScoreboardTag = command };
+						player.Clan = command;
+						Utilities.SetStateChanged(player, "CCSPlayerController", "m_szClan");
+						break;
+				}
 			}
 
-			Instance._awaitingChatTagUsers.Remove(player.SteamID);
-			Instance._api?.PrintToChat(player, Instance._api?.GetTranslatedText("tag.ChatTagSelected", command)!);
-			Instance._api?.SetPlayerCookie(player.SteamID, "chatTag", command);
+			Instance._awaitingTags.Remove(player.SteamID);
 			Instance._tags?.MainMenu(player);
 
-			return HookResult.Handled;
-		}
-
-		// Check if the user is in the "_awaitingScoreboardTagUsers" List
-		if (Instance._awaitingScoreboardTagUsers.Contains(player.SteamID))
-		{
-			// Set the player's scoreboard tag
-			if (playerData != null)
+			switch (awaitingTag.type)
 			{
-				playerData.ScoreboardTag = command;
+				case "chat":
+					Instance._api?.PrintToChat(player, Instance._api?.GetTranslatedText("tag.ChatTagSelected", command)!);
+					Instance._api?.SetPlayerCookie(player.SteamID, "chatTag", command);
+					break;
+				case "scoreboard":
+					Instance._api?.PrintToChat(player, Instance._api?.GetTranslatedText("tag.ScoreboardTagSelected", command)!);
+					Instance._api?.SetPlayerCookie(player.SteamID, "scoreboardTag", command);
+					break;
 			}
-			else
-			{
-				Instance._userSettings[player.SteamID] = new UserSettings { ScoreboardTag = command };
-			}
-
-			Instance._awaitingScoreboardTagUsers.Remove(player.SteamID);
-			Instance._api?.PrintToChat(player, Instance._api?.GetTranslatedText("tag.ScoreboardTagSelected", command)!);
-			Instance._api?.SetPlayerCookie(player.SteamID, "scoreboardTag", command);
-			Instance._tags?.MainMenu(player);
 
 			return HookResult.Handled;
 		}
