@@ -45,21 +45,13 @@ public partial class VIP_Tags
 		int currentTime = (int)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 		int delay = Instance.Config.TagTimeout;
 
-		Console.WriteLine($"[VIP Tags] currentTime: {currentTime}");
-		Console.WriteLine($"[VIP Tags] awaitingUnixTime: {awaitingTag.awaitingUnixTime}");
-		Console.WriteLine($"[VIP Tags] delay: {delay}");
-		Console.WriteLine($"[VIP Tags] awaitingTag.awaitingUnixTime + delay: {awaitingTag.awaitingUnixTime + delay}");
-		Console.WriteLine($"[VIP Tags] awaitingTag.type: {awaitingTag.type}");
-
 		// Check if the awaitingTag exists and the didnt pass the timeout
 		if (awaitingTag.type != null && currentTime < (awaitingTag.awaitingUnixTime + delay))
 		{
-			Console.WriteLine("[VIP Tags] Tag awaiting timeout not passed");
 			Instance._api?.PrintToChat(player, message: $"You have more {(awaitingTag.awaitingUnixTime + delay) - currentTime} seconds to enter your tag");
 			// Check for min and max lengths, and restart -> cancel the timeout
 			if (command.Length < Instance.Config.ChatTagMin || command.Length > Instance.Config.ChatTagMax)
 			{
-				Console.WriteLine($"[VIP Tags] Tag length error {awaitingTag.type}");
 				Instance._tags?.AwaitOrExtendTag(player.SteamID, awaitingTag.type);
 
 				switch (awaitingTag.type)
@@ -79,8 +71,6 @@ public partial class VIP_Tags
 			// Set the player's chat tag
 			if (playerData != null)
 			{
-				Console.WriteLine($"[VIP Tags] Setting tag for {awaitingTag.type}");
-
 				switch (awaitingTag.type)
 				{
 					case "chat":
@@ -93,7 +83,6 @@ public partial class VIP_Tags
 			}
 			else
 			{
-				Console.WriteLine($"[VIP Tags] Setting tag for {awaitingTag.type}");
 				switch (awaitingTag.type)
 				{
 					case "chat":

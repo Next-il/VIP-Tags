@@ -45,8 +45,6 @@ public partial class VIP_Tags
 
 	public static string ReplaceLineBreaks(string input)
 	{
-		Console.WriteLine(input);
-		Console.WriteLine(input.Replace("\\n", "\\u2029"));
 		return input.Replace("\\n", "\u2029");
 	}
 }
