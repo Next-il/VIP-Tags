@@ -49,6 +49,15 @@ public partial class VIP_Tags
 		if (awaitingTag.type != null && currentTime < (awaitingTag.awaitingUnixTime + delay))
 		{
 			Instance._api?.PrintToChat(player, message: $"You have more {(awaitingTag.awaitingUnixTime + delay) - currentTime} seconds to enter your tag");
+
+			// Check if the the tag, contains one of the blocked tags
+			if (Instance.Config.BlockedTags.Any(tag => command.Contains(tag)))
+			{
+				Instance._tags?.AwaitOrExtendTag(player.SteamID, awaitingTag.type);
+				Instance._api?.PrintToChat(player, Instance._api?.GetTranslatedText("tag.BlockedTagError")!);
+				return HookResult.Handled;
+			}
+
 			// Check for min and max lengths, and restart -> cancel the timeout
 			if (command.Length < Instance.Config.ChatTagMin || command.Length > Instance.Config.ChatTagMax)
 			{

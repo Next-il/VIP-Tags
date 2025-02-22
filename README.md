@@ -31,14 +31,14 @@ this plugin is built for the [VIP](https://github.com/partiusfabaa/cs2-VIPCore) 
     "ctname": "{Blue}(CT)"
   },
   "TagTimeout": 15,
-  "ScoreboardTag": {
-    "minChars": 1,
-    "maxChars": 17
-  },
-  "ChatTag": {
-    "minChars": 1,
-    "maxChars": 17
-  }
+  "ScoreboardTagMin": 1,
+  "ScoreboardTagMax": 17,
+  "ChatTagMin": 1,
+  "ChatTagMax": 17,
+  "BlockedTags"": [
+	"admin",
+	"owner",
+  ],
 }
 ```
 
@@ -50,6 +50,7 @@ this plugin is built for the [VIP](https://github.com/partiusfabaa/cs2-VIPCore) 
 	"tag.ChatTagPrompt": "\\n\\n\\n\\nEnter the tag you want to use in the chat\\nType {red}cancel{default} to cancel\\n",
 	"tag.ChatTagSelected": "Your chat tag is now: {lime}{0}",
 	"tag.ChatTagLengthError": "The tag must be between {lime}{0}{default} and {lime}{1}{default} characters long, please type a new tag",
+	"tag.BlockedTagError": "The tag you have entered is blocked, please type a new tag",
 	"tag.ScoreboardTagPrompt": "\\n\\n\\n\\nEnter the tag you want to use in the scoreboard\\nType {red}cancel{default} to cancel\\n",
 	"tag.ColorSelected": "You have selected the color: {lime}{0}",
 	"tag.TagTimeout": "Time is up, if you want to set a tag please use the command again",

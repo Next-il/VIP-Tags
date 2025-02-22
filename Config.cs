@@ -29,5 +29,12 @@ namespace VIP_Tags
 		public int ChatTagMin { get; set; } = 1;
 		[JsonPropertyName("ChatTagMax")]
 		public int ChatTagMax { get; set; } = 17;
+
+		[JsonPropertyName("BlockedTags")]
+		public List<string> BlockedTags { get; set; } = new List<string>
+		{
+			"admin",
+			"owner"
+		};
 	}
 }
