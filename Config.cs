@@ -5,7 +5,7 @@ namespace VIP_Tags
 {
 	public class TagsConfig : BasePluginConfig
 	{
-		[JsonPropertyName("ConfigVersion")] public override int Version { get; set; } = 1;
+		[JsonPropertyName("ConfigVersion")] public override int Version { get; set; } = 2;
 
 		// Settings
 		[JsonPropertyName("ChatTagEnabled")]
