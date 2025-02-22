@@ -22,7 +22,12 @@ this plugin is built for the [VIP](https://github.com/partiusfabaa/cs2-VIPCore) 
 
 ```
 {
-  "ConfigVersion": 1,
+  "ConfigVersion": 2,
+  "ChatTagEnabled": true,
+  "ChatTagColorEnabled": true,
+  "ChatColorEnabled": true,
+  "ScoreboardTagEnabled": true,
+  "NameColorEnabled": true,
   "ChatSettings": {
     "deadname": "[DEAD]",
     "nonename": "{White}(NONE)",
