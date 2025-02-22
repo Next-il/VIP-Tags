@@ -85,6 +85,7 @@ public partial class VIP_Tags
 					case "chat":
 						playerData.ChatTag = command;
 						break;
+
 					case "scoreboard":
 						playerData.ScoreboardTag = command;
 						break;
@@ -97,6 +98,7 @@ public partial class VIP_Tags
 					case "chat":
 						Instance._userSettings[player.SteamID] = new UserSettings { ChatTag = command };
 						break;
+
 					case "scoreboard":
 						Instance._userSettings[player.SteamID] = new UserSettings { ScoreboardTag = command };
 						player.Clan = command;
@@ -132,10 +134,10 @@ public partial class VIP_Tags
 		bool teammessage = info.GetArg(0) == "say_team";
 		string deadname = player.PawnIsAlive ? string.Empty : Instance.Config.Settings["deadname"];
 
-		string? tag = playerData.ChatTag;
-		string? tagColor = playerData.ChatTagColor;
-		string? namecolor = playerData.NameColor;
-		string? chatcolor = playerData.ChatColor;
+		string? tag = Instance.Config.ChatTagEnabled ? playerData.ChatTag : null;
+		string? tagColor = Instance.Config.ChatTagColorEnabled ? playerData.ChatTagColor : null;
+		string? namecolor = Instance.Config.NameColorEnabled ? playerData.NameColor : null;
+		string? chatcolor = Instance.Config.ChatColorEnabled ? playerData.ChatColor : null;
 
 		string message = FormatMessage(deadname, teammessage ? TeamName(player.Team) : string.Empty, tag, tagColor, namecolor, chatcolor, player, command);
 
@@ -176,8 +178,11 @@ public partial class VIP_Tags
 				{
 					if (playerData.ScoreboardTag != null)
 					{
-						player.Clan = playerData.ScoreboardTag;
-						Utilities.SetStateChanged(player, "CCSPlayerController", "m_szClan");
+						if (Instance.Config.ScoreboardTagEnabled)
+						{
+							player.Clan = playerData.ScoreboardTag;
+							Utilities.SetStateChanged(player, "CCSPlayerController", "m_szClan");
+						}
 					}
 				}
 			}
@@ -192,8 +197,11 @@ public partial class VIP_Tags
 			{
 				if (playerData.ScoreboardTag != null)
 				{
-					player.Clan = playerData.ScoreboardTag;
-					Utilities.SetStateChanged(player, "CCSPlayerController", "m_szClan");
+					if (Instance.Config.ScoreboardTagEnabled)
+					{
+						player.Clan = playerData.ScoreboardTag;
+						Utilities.SetStateChanged(player, "CCSPlayerController", "m_szClan");
+					}
 				}
 			}
 		}
@@ -209,8 +217,11 @@ public partial class VIP_Tags
 				{
 					if (playerData.ScoreboardTag != null)
 					{
-						player.Clan = playerData.ScoreboardTag;
-						Utilities.SetStateChanged(player, "CCSPlayerController", "m_szClan");
+						if (Instance.Config.ScoreboardTagEnabled)
+						{
+							player.Clan = playerData.ScoreboardTag;
+							Utilities.SetStateChanged(player, "CCSPlayerController", "m_szClan");
+						}
 					}
 				}
 			}

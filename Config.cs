@@ -7,6 +7,23 @@ namespace VIP_Tags
 	{
 		[JsonPropertyName("ConfigVersion")] public override int Version { get; set; } = 1;
 
+		// Settings
+		[JsonPropertyName("ChatTagEnabled")]
+		public bool ChatTagEnabled { get; set; } = true;
+
+		[JsonPropertyName("ChatTagColorEnabled")]
+		public bool ChatTagColorEnabled { get; set; } = true;
+
+		[JsonPropertyName("ChatColorEnabled")]
+		public bool ChatColorEnabled { get; set; } = true;
+
+		[JsonPropertyName("ScoreboardTagEnabled")]
+		public bool ScoreboardTagEnabled { get; set; } = true;
+
+		[JsonPropertyName("NameColorEnabled")]
+		public bool NameColorEnabled { get; set; } = true;
+
+		// Chat Settings
 		[JsonPropertyName("ChatSettings")]
 		public Dictionary<string, string> Settings { get; set; } = new Dictionary<string, string>
 		{

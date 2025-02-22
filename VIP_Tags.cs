@@ -148,11 +148,11 @@ public partial class VIP_Tags : BasePlugin, IPluginConfig<TagsConfig>
 			_userSettings.TryGetValue(player.SteamID, out UserSettings? playerData);
 			string? defaultColor = "Default";
 
-			Menu.AddMenuOption($"Scoreboard: {playerData?.ScoreboardTag ?? "None"}", (controller, option) => HandleChooseScoreboardTag(player));
-			Menu.AddMenuOption($"Chat Tag: {playerData?.ChatTag ?? "None"}", (controller, option) => HandleChooseChatTag(player));
-			Menu.AddMenuOption($"Chat Tag Color: {playerData?.ChatTagColor ?? "None"}", (controller, option) => OpenTagColorMenu(player));
-			Menu.AddMenuOption($"Name Color: {playerData?.NameColor ?? defaultColor}", (controller, option) => OpenNameColorMenu(player));
-			Menu.AddMenuOption($"Chat Color: {playerData?.ChatColor ?? defaultColor}", (controller, option) => OpenChatColorMenu(player));
+			Menu.AddMenuOption($"Scoreboard: {playerData?.ScoreboardTag ?? "None"}", (controller, option) => HandleChooseScoreboardTag(player), disabled: !Instance.Config.ScoreboardTagEnabled);
+			Menu.AddMenuOption($"Chat Tag: {playerData?.ChatTag ?? "None"}", (controller, option) => HandleChooseChatTag(player), disabled: !Instance.Config.ChatTagEnabled);
+			Menu.AddMenuOption($"Chat Tag Color: {playerData?.ChatTagColor ?? "None"}", (controller, option) => OpenTagColorMenu(player), disabled: !Instance.Config.ChatTagColorEnabled);
+			Menu.AddMenuOption($"Name Color: {playerData?.NameColor ?? defaultColor}", (controller, option) => OpenNameColorMenu(player), disabled: !Instance.Config.NameColorEnabled);
+			Menu.AddMenuOption($"Chat Color: {playerData?.ChatColor ?? defaultColor}", (controller, option) => OpenChatColorMenu(player), disabled: !Instance.Config.ChatColorEnabled);
 
 			MenuManager.OpenCenterHtmlMenu(_app, player, Menu);
 		}
